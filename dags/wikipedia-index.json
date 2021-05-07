@@ -1,0 +1,77 @@
+{
+  "type": "index_parallel",
+  "spec": {
+    "ioConfig": {
+      "type": "index_parallel",
+      "inputSource": {
+        "type": "http",
+        "uris": [
+          "https://druid.apache.org/data/wikipedia.json.gz"
+        ]
+      },
+      "inputFormat": {
+        "type": "json"
+      }
+    },
+    "dataSchema": {
+      "granularitySpec": {
+        "segmentGranularity": "day",
+        "queryGranularity": "none",
+        "rollup": false
+      },
+      "dataSource": "wikipedia-airflow-test",
+      "timestampSpec": {
+        "column": "timestamp",
+        "format": "iso"
+      },
+      "dimensionsSpec": {
+        "dimensions": [
+          {
+            "type": "long",
+            "name": "added"
+          },
+          "channel",
+          "cityName",
+          "comment",
+          {
+            "type": "long",
+            "name": "commentLength"
+          },
+          "countryIsoCode",
+          "countryName",
+          {
+            "type": "long",
+            "name": "deleted"
+          },
+          {
+            "type": "long",
+            "name": "delta"
+          },
+          {
+            "type": "long",
+            "name": "deltaBucket"
+          },
+          "diffUrl",
+          "flags",
+          "isAnonymous",
+          "isMinor",
+          "isNew",
+          "isRobot",
+          "isUnpatrolled",
+          "metroCode",
+          "namespace",
+          "page",
+          "regionIsoCode",
+          "regionName",
+          "user"
+        ]
+      }
+    },
+    "tuningConfig": {
+      "type": "index_parallel",
+      "partitionsSpec": {
+        "type": "dynamic"
+      }
+    }
+  }
+}
