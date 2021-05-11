@@ -1,6 +1,8 @@
 from airflow import DAG
+from airflow.operators.python import PythonOperator
 from airflow.providers.apache.druid.operators.druid import DruidOperator
 from datetime import datetime, timedelta
+from dags.callables import dummy_processor
 
 # Default settings applied to all tasks
 default_args = {
@@ -18,6 +20,16 @@ with DAG('druid-ingest',
          schedule_interval=None,
          default_args=default_args,
          ) as dag:
+
+    # A dummy processor which pushes the uris and intervals to backend db using xcom
+    # this can be any processor which sinks the processed data to s3 or gs and pushes the links using xcom.
+    dummy_processor = PythonOperator(task_id='dummpy_processor',
+                                     python_callable=dummy_processor)
+
+    # a sample druid operator which pulls the uris and intervals from dependent operators. ex: dummy_processor operator
+    # replaces the links and intervals in the wikipedia-index.json dynamically
     ingest_data = DruidOperator(task_id='druid_ingest',
                                 json_index_file='wikipedia-index.json',
                                 druid_ingest_conn_id='druid_ingest_conn_id')
+
+    dummy_processor >> ingest_data
