@@ -25,8 +25,8 @@ $ export INITDB_EMAIL=admin
 $ export INITDB_PASSWORD=admin
 $ export INITDB_USERNAME=admin
 $ export INITDB_ROLE=Admin
-$ export DRUID_HOST=druid.master.in.rilldata.io
-$ export DRUID_LOGIN_USER=airflow@rilldata.com
+$ export DRUID_HOST=xxxxxxxxxxxxx
+$ export DRUID_LOGIN_USER=xxxxxxxxxxxxx
 $ export DRUID_PASSWORD=xxxxxxxx
 ```
 _note: wait for couple of minutes for scheduler to comes up_
