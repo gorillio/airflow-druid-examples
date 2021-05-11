@@ -5,9 +5,7 @@
       "type": "index_parallel",
       "inputSource": {
         "type": "http",
-        "uris": [
-          "https://druid.apache.org/data/wikipedia.json.gz"
-        ]
+        "uris": {{ ti.xcom_pull(task_ids="dummpy_processor", key="links") | tojson }}
       },
       "inputFormat": {
         "type": "json"
@@ -17,7 +15,8 @@
       "granularitySpec": {
         "segmentGranularity": "day",
         "queryGranularity": "none",
-        "rollup": false
+        "rollup": false,
+        "intervals" : {{ ti.xcom_pull(task_ids="dummpy_processor", key="intervals") | tojson }}
       },
       "dataSource": "wikipedia-airflow-test",
       "timestampSpec": {
